@@ -107,45 +107,9 @@
             color: #667eea;
         }
 
-        @media (max-width: 1023px) {
-            .main-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
+        @media (min-width: 1024px) {
             .toc {
-                width: 100%;
-                position: static;
-                margin-bottom: 20px;
-            }
-            
-            .toc ul {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 12px;
-            }
-            
-            .toc li {
-                padding: 0;
-            }
-            
-            .toc a {
-                background: #f8f8f8;
-                padding: 8px 12px;
-                border-radius: 6px;
-                font-size: 13px;
-            }
-            
-            .container {
-                max-width: 100%;
-            }
-            
-            section {
-                padding: 20px;
-            }
-            
-            .demos div {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                display: block;
             }
         }
 
@@ -530,6 +494,10 @@ The service returns SVG images with dimensions displayed as text. Once you have 
             </div>
         </section>
     </div>
+
+    <footer style="text-align: center; padding: 40px 20px; color: #666; font-size: 14px; border-top: 1px solid #eaeaea; margin-top: 40px;">
+        <p>Website made by <a href="https://jamestheakston.pages.dev" target="_blank" style="color: #667eea;">James Theakston</a></p>
+    </footer>
 
     <script>
         function copyPrompt() {
