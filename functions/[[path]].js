@@ -12,6 +12,7 @@ export async function onRequest(context) {
 
     // Parse dimensions from path (e.g., /640/480 or /400 for square)
     // Also supports /bgcolor/textcolor format
+    // Also supports format extension like /640/480.png
     const parts = path.split('/').filter(Boolean);
     
     if (parts.length < 1) {
@@ -19,6 +20,23 @@ export async function onRequest(context) {
         status: 400,
         headers: { 'Content-Type': 'text/plain' },
       });
+    }
+
+    // Check for format extension (e.g., .png, .jpg)
+    let format = 'svg';
+    const lastPart = parts[parts.length - 1];
+    const formatMatch = lastPart.match(/(\.(png|jpg|jpeg|gif|webp|avif))$/i);
+    if (formatMatch) {
+      format = formatMatch[1].replace('.', '').toLowerCase();
+      parts[parts.length - 1] = lastPart.replace(formatMatch[0], '');
+    }
+
+    // Check for retina scale (e.g., @2x, @3x)
+    let scale = 1;
+    const scaleMatch = parts[parts.length - 1].match(/@(\d)x$/i);
+    if (scaleMatch) {
+      scale = parseInt(scaleMatch[1]);
+      parts[parts.length - 1] = parts[parts.length - 1].replace(scaleMatch[0], '');
     }
 
     // Check if first part is a dimension (number) or a color
@@ -45,32 +63,52 @@ export async function onRequest(context) {
       font = url.searchParams.get('font') || 'Arial';
     }
 
+    // Apply retina scale
+    width = width * scale;
+    height = height * scale;
+
     // Validate dimensions
     if (isNaN(width) || width <= 0 || isNaN(height) || height <= 0) {
-      return new Response('Invalid dimensions. Width and height must be positive numbers.', {
+      return new Response(getErrorHTML('Invalid dimensions', 'Width and height must be positive numbers between 1 and 4000.'), {
         status: 400,
-        headers: { 'Content-Type': 'text/plain' },
+        headers: { 'Content-Type': 'text/html' },
       });
     }
 
     // Limit max dimensions to prevent abuse
     if (width > 4000 || height > 4000) {
-      return new Response('Dimensions too large. Maximum is 4000x4000.', {
+      return new Response(getErrorHTML('Dimensions too large', 'Maximum image size is 4000x4000 pixels. Please use smaller dimensions.'), {
         status: 400,
-        headers: { 'Content-Type': 'text/plain' },
+        headers: { 'Content-Type': 'text/html' },
       });
     }
 
     // Generate SVG placeholder image
     const svg = generateSVG(width, height, color, text.replace(/\\n/g, '\n'), transparent, textColor, font);
 
-    return new Response(svg, {
-      headers: {
-        'Content-Type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=31536000',
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
+    // Return SVG directly or convert to other format
+    if (format === 'svg') {
+      return new Response(svg, {
+        headers: {
+          'Content-Type': 'image/svg+xml',
+          'Cache-Control': 'public, max-age=31536000',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    } else {
+      // For other formats, we'll need to convert SVG to raster
+      // Since Cloudflare Workers don't have built-in image conversion,
+      // we'll return the SVG with the appropriate Content-Type for now
+      // In a production environment, you'd use a service like Cloudflare Images or an external API
+      return new Response(svg, {
+        headers: {
+          'Content-Type': 'image/svg+xml',
+          'Cache-Control': 'public, max-age=31536000',
+          'Access-Control-Allow-Origin': '*',
+          'X-Requested-Format': format,
+        },
+      });
+    }
   } catch (error) {
     return new Response(`Error: ${error.message}`, {
       status: 500,
