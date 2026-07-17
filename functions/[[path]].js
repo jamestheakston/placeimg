@@ -10,21 +10,22 @@ export async function onRequest(context) {
       return context.next();
     }
 
-    // Parse dimensions from path (e.g., /640/480)
+    // Parse dimensions from path (e.g., /640/480 or /400 for square)
     const parts = path.split('/').filter(Boolean);
     
-    if (parts.length < 2) {
-      return new Response('Invalid URL format. Use /width/height or /width/height?color=hex', {
+    if (parts.length < 1) {
+      return new Response('Invalid URL format. Use /width or /width/height', {
         status: 400,
         headers: { 'Content-Type': 'text/plain' },
       });
     }
 
     const width = parseInt(parts[0]);
-    const height = parseInt(parts[1]);
+    const height = parts.length >= 2 ? parseInt(parts[1]) : width;
     const color = url.searchParams.get('color') || 'cccccc';
     const text = url.searchParams.get('text') || null;
     const transparent = url.searchParams.get('transparent') === 'true';
+    const textColor = url.searchParams.get('textColor') || null;
 
     // Validate dimensions
     if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
@@ -73,13 +74,23 @@ function generateSVG(width, height, color, text, transparent, textColor) {
   // Adjust font size based on text length
   const fontSize = text ? Math.min(width, height) / Math.max(text.length / 5, 5) : Math.min(width, height) / 10;
 
+  // Handle newlines in text
+  const lines = displayText.split('\n');
+  const lineHeight = fontSize * 1.2;
+  const totalHeight = lines.length * lineHeight;
+  const startY = 50 - ((totalHeight / height) * 50);
+
+  const textElements = lines.map((line, i) => 
+    `<text x="50%" y="${startY + (i * lineHeight / height * 100)}%" font-family="Arial, sans-serif" font-size="${fontSize}" 
+        fill="${finalTextColor}" text-anchor="middle" dominant-baseline="middle">
+    ${line}
+  </text>`
+  ).join('\n  ');
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   ${transparent ? '' : `<rect width="100%" height="100%" fill="${hexColor}"/>`}
-  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="${fontSize}" 
-        fill="${finalTextColor}" text-anchor="middle" dominant-baseline="middle">
-    ${displayText}
-  </text>
+  ${textElements}
 </svg>`;
 }
 
