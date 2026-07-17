@@ -1,9 +1,0 @@
-{
-  "name": "placeimg",
-  "version": "1.0.0",
-  "description": "Free placeholder image service",
-  "scripts": {
-    "dev": "npx wrangler pages dev",
-    "deploy": "npx wrangler pages deploy"
-  }
-}
