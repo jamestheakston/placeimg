@@ -144,7 +144,7 @@ export async function onRequest(context) {
     }
 
     // Generate SVG placeholder image
-    const svg = generateSVG(width, height, color, text.replace(/\\n/g, '\n'), transparent, textColor, font);
+    const svg = generateSVG(width, height, color, text ? text.replace(/\\n/g, '\n') : null, transparent, textColor, font);
 
     // Return SVG directly or convert to other format
     if (format === 'svg') {
