@@ -111,7 +111,32 @@ export async function onRequest(context) {
     let width, height, color, textColor, text, transparent, font;
 
     if (isNaN(firstPart)) {
-      // Format: /bgcolor/textcolor
+      // Format: /bgcolor/textcolor - validate it's a valid color
+      const potentialColor = parts[0];
+      // Check if it's a valid CSS color name or hex color
+      const cssColors = {
+        'transparent': 'transparent', 'black': '#000000', 'white': '#ffffff', 'red': '#ff0000',
+        'green': '#008000', 'blue': '#0000ff', 'yellow': '#ffff00', 'orange': '#ffa500',
+        'purple': '#800080', 'pink': '#ffc0cb', 'gray': '#808080', 'grey': '#808080',
+        'brown': '#a52a2a', 'cyan': '#00ffff', 'magenta': '#ff00ff', 'lime': '#00ff00',
+        'navy': '#000080', 'teal': '#008080', 'olive': '#808000', 'maroon': '#800000',
+        'silver': '#c0c0c0', 'gold': '#ffd700', 'indigo': '#4b0082', 'violet': '#ee82ee',
+        'beige': '#f5f5dc', 'coral': '#ff7f50', 'crimson': '#dc143c', 'darkblue': '#00008b',
+        'darkgreen': '#006400', 'darkred': '#8b0000', 'lightblue': '#add8e6', 'lightgreen': '#90ee90',
+        'lightgray': '#d3d3d3', 'lightgrey': '#d3d3d3', 'darkgray': '#a9a9a9', 'darkgrey': '#a9a9a9'
+      };
+      
+      const isValidColor = cssColors[potentialColor.toLowerCase()] || 
+                          potentialColor.startsWith('#') || 
+                          /^[0-9a-fA-F]{6}$/.test(potentialColor);
+      
+      if (!isValidColor) {
+        return new Response(getErrorHTML('Invalid color', `"${potentialColor}" is not a valid color. Use a CSS color name (like red, blue, orange) or a hex color (like ff5733 or #ff5733). Check the documentation for valid color names.`), {
+          status: 400,
+          headers: { 'Content-Type': 'text/html' },
+        });
+      }
+      
       color = parts[0];
       textColor = parts[1] || null;
       width = 800;
