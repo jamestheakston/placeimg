@@ -83,6 +83,26 @@ To use a custom domain like `placeimg.pages.dev`:
 - Minimum dimensions: 1x1
 - Cache duration: 1 year
 
+## AI Prompt
+
+When using Placeimg with AI agents, you can use this prompt:
+
+```
+Placeimg is a free placeholder image service. Use it to generate placeholder images for web development and design. 
+
+URL format: /{width}/{height}?color={hex}
+- width: Image width in pixels (1-4000)
+- height: Image height in pixels (1-4000)
+- color: Optional hex color for background (default: cccccc)
+
+Examples:
+- /640/640 - 640x640 square image
+- /800/600 - 800x600 landscape image
+- /640/480?color=ff5733 - 640x480 image with orange background
+
+The service returns SVG images with dimensions displayed as text. Once you have the final image path, replace the Placeimg URL with the actual image.
+```
+
 ## License
 
 MIT
