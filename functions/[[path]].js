@@ -67,7 +67,13 @@ export async function onRequest(context) {
     // Let Cloudflare Pages serve static files (index.html, favicon.svg)
     if (path === '/' || path === '/index.html' || path === '/favicon.svg') {
       // Return without handling - let Pages serve the static file
-      return context.next();
+      const response = await context.next();
+      // Disable caching for HTML to ensure updates are visible immediately
+      const newResponse = new Response(response.body, response);
+      newResponse.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+      newResponse.headers.set('Pragma', 'no-cache');
+      newResponse.headers.set('Expires', '0');
+      return newResponse;
     }
 
     // Parse dimensions from path (e.g., /640/480 or /400 for square)
