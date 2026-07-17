@@ -89,6 +89,39 @@
         tr:last-child td {
             border-bottom: none;
         }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        code {
+            background-color: #f8f8f8;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            color: #d63384;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -118,11 +151,97 @@
                         <td><a href="/800/600" target="_blank">/800/600</a></td>
                     </tr>
                     <tr>
-                        <td>Custom Color</td>
+                        <td>Portrait</td>
+                        <td><a href="/600/800" target="_blank">/600/800</a></td>
+                    </tr>
+                    <tr>
+                        <td>HD</td>
+                        <td><a href="/1920/1080" target="_blank">/1920/1080</a></td>
+                    </tr>
+                    <tr>
+                        <td>Thumbnail</td>
+                        <td><a href="/150/150" target="_blank">/150/150</a></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Color (Dark)</td>
                         <td><a href="/640/480?color=333333" target="_blank">/640/480?color=333333</a></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Color (Blue)</td>
+                        <td><a href="/800/600?color=4a90e2" target="_blank">/800/600?color=4a90e2</a></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Color (Green)</td>
+                        <td><a href="/500/500?color=7ed321" target="_blank">/500/500?color=7ed321</a></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Color (Red)</td>
+                        <td><a href="/640/480?color=e74c3c" target="_blank">/640/480?color=e74c3c</a></td>
+                    </tr>
+                    <tr>
+                        <td>Custom Color (Purple)</td>
+                        <td><a href="/800/600?color=9b59b6" target="_blank">/800/600?color=9b59b6</a></td>
                     </tr>
                 </tbody>
             </table>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <ul>
+                <li><strong>Dynamic Generation:</strong> Images are generated on-demand with no storage needed</li>
+                <li><strong>Custom Dimensions:</strong> Support for any size from 1x1 to 4000x4000 pixels</li>
+                <li><strong>Custom Colors:</strong> Specify any hex color for the background</li>
+                <li><strong>SVG Format:</strong> Crisp, scalable images that look great at any size</li>
+                <li><strong>Auto Contrast:</strong> Text color automatically adjusts for readability</li>
+                <li><strong>CDN Caching:</strong> 1-year cache for fast delivery worldwide</li>
+                <li><strong>No Dependencies:</strong> Simple URL-based API, no authentication required</li>
+            </ul>
+        </section>
+
+        <section class="api">
+            <h2>API Documentation</h2>
+            <h3>Endpoint</h3>
+            <code>GET /{width}/{height}?color={hex}</code>
+            
+            <h3>Parameters</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Required</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>width</td>
+                        <td>integer</td>
+                        <td>Yes</td>
+                        <td>Image width in pixels (1-4000)</td>
+                    </tr>
+                    <tr>
+                        <td>height</td>
+                        <td>integer</td>
+                        <td>Yes</td>
+                        <td>Image height in pixels (1-4000)</td>
+                    </tr>
+                    <tr>
+                        <td>color</td>
+                        <td>string</td>
+                        <td>No</td>
+                        <td>Background color in hex format (default: cccccc)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Response</h3>
+            <p>Returns an SVG image with Content-Type: image/svg+xml</p>
+            
+            <h3>Example</h3>
+            <code>GET /800/600?color=ff5733</code>
+            <p>Returns an 800x600 SVG with orange background (#ff5733)</p>
         </section>
     </div>
 </body>
