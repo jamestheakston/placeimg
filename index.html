@@ -233,6 +233,7 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#api-docs">API Documentation</a></li>
                 <li><a href="#ai-prompt">AI Prompt</a></li>
+                <li><a href="#prelink">Create Prelink</a></li>
             </ul>
         </aside>
         <div class="container">
@@ -313,6 +314,7 @@
                 <li><strong>Dynamic Generation:</strong> Images are generated on-demand with no storage needed</li>
                 <li><strong>Custom Dimensions:</strong> Support for any size from 1x1 to 4000x4000 pixels</li>
                 <li><strong>Custom Colors:</strong> Specify any hex color for the background</li>
+                <li><strong>Custom Text:</strong> Display custom text instead of dimensions</li>
                 <li><strong>SVG Format:</strong> Crisp, scalable images that look great at any size</li>
                 <li><strong>Auto Contrast:</strong> Text color automatically adjusts for readability</li>
                 <li><strong>CDN Caching:</strong> 1-year cache for fast delivery worldwide</li>
@@ -429,6 +431,80 @@ The service returns SVG images with dimensions displayed as text. Once you have 
             const progress = (scrollTop / docHeight) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
         });
+
+        // Create Prelink
+        let nameCheckTimeout;
+        document.getElementById('prelinkName').addEventListener('input', function() {
+            clearTimeout(nameCheckTimeout);
+            nameCheckTimeout = setTimeout(checkNameAvailability, 300);
+        });
+
+        async function checkNameAvailability() {
+            const name = document.getElementById('prelinkName').value.trim();
+            const suggestionsDiv = document.getElementById('nameSuggestions');
+            
+            if (!name) {
+                suggestionsDiv.innerHTML = '';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/check-prelink?name=${encodeURIComponent(name)}`);
+                const data = await response.json();
+                
+                if (data.available) {
+                    suggestionsDiv.innerHTML = '<span style="color: #22c55e;">✓ Name available</span>';
+                } else {
+                    suggestionsDiv.innerHTML = '<span style="color: #e74c3c;">✗ Name taken</span>';
+                    if (data.suggestions && data.suggestions.length > 0) {
+                        suggestionsDiv.innerHTML += '<br>Suggestions: ' + data.suggestions.map(s => `<a href="#" onclick="document.getElementById('prelinkName').value='${s}'; checkNameAvailability(); return false;" style="color: #667eea;">${s}</a>`).join(', ');
+                    }
+                }
+            } catch (error) {
+                suggestionsDiv.innerHTML = '<span style="color: #666;">Checking...</span>';
+            }
+        }
+
+        async function createPrelink() {
+            const name = document.getElementById('prelinkName').value.trim();
+            const text = document.getElementById('defaultText').value.trim();
+            const width = document.getElementById('prelinkWidth').value;
+            const height = document.getElementById('prelinkHeight').value;
+            const color = document.getElementById('prelinkColor').value.trim();
+
+            if (!name) {
+                alert('Please enter a prelink name');
+                return;
+            }
+
+            const prelinkData = {
+                name,
+                text: text || null,
+                width: width ? parseInt(width) : null,
+                height: height ? parseInt(height) : null,
+                color: color || null
+            };
+
+            try {
+                const response = await fetch('/api/create-prelink', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(prelinkData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('prelinkResult').style.display = 'block';
+                    document.getElementById('prelinkUrl').href = data.url;
+                    document.getElementById('prelinkUrl').textContent = data.url;
+                } else {
+                    const error = await response.json();
+                    alert('Failed to create prelink: ' + (error.error || 'Unknown error'));
+                }
+            } catch (error) {
+                alert('Error creating prelink: ' + error.message);
+            }
+        }
     </script>
 </body>
 </html> 

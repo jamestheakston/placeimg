@@ -9,8 +9,8 @@ export async function onRequest(context) {
     return context.next();
   }
 
-  // Handle profile routes
-  if (path.startsWith('/profile/')) {
+  // Handle prelink routes
+  if (path.startsWith('/prelink/')) {
     return context.next();
   }
 
