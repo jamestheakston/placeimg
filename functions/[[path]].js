@@ -43,7 +43,7 @@ export async function onRequest(context) {
     }
 
     // Generate SVG placeholder image
-    const svg = generateSVG(width, height, color, text, transparent);
+    const svg = generateSVG(width, height, color, text, transparent, textColor);
 
     return new Response(svg, {
       headers: {
@@ -60,12 +60,12 @@ export async function onRequest(context) {
   }
 }
 
-function generateSVG(width, height, color, text, transparent) {
+function generateSVG(width, height, color, text, transparent, textColor) {
   // Use transparent background if requested, otherwise use color
   const hexColor = transparent ? 'transparent' : (color.startsWith('#') ? color : `#${color}`);
   
-  // Calculate text color based on background brightness (or use dark for transparent)
-  const textColor = transparent ? '#333333' : getContrastColor(hexColor);
+  // Use custom text color if provided, otherwise calculate based on background
+  const finalTextColor = textColor ? (textColor.startsWith('#') ? textColor : `#${textColor}`) : (transparent ? '#333333' : getContrastColor(hexColor));
   
   // Use custom text or default to dimensions
   const displayText = text || `${width} x ${height}`;
@@ -77,7 +77,7 @@ function generateSVG(width, height, color, text, transparent) {
 <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   ${transparent ? '' : `<rect width="100%" height="100%" fill="${hexColor}"/>`}
   <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="${fontSize}" 
-        fill="${textColor}" text-anchor="middle" dominant-baseline="middle">
+        fill="${finalTextColor}" text-anchor="middle" dominant-baseline="middle">
     ${displayText}
   </text>
 </svg>`;
