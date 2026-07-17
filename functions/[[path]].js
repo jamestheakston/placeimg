@@ -3,11 +3,10 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const path = url.pathname;
 
-  // Serve the landing page for root
-  if (path === '/' || path === '/index.html') {
-    return new Response(getLandingPage(), {
-      headers: { 'Content-Type': 'text/html;charset=UTF-8' },
-    });
+  // Let Cloudflare Pages serve static files (index.html, favicon.svg)
+  if (path === '/' || path === '/index.html' || path === '/favicon.svg') {
+    // Return without handling - let Pages serve the static file
+    return context.next();
   }
 
   // Parse dimensions from path (e.g., /640/480)
@@ -83,99 +82,4 @@ function getContrastColor(hexColor) {
   
   // Return black or white based on luminance
   return luminance > 0.5 ? '#000000' : '#ffffff';
-}
-
-function getLandingPage() {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Placeimg - Free Placeholder Images</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            color: #333;
-        }
-
-        p {
-            color: #666;
-        }
-
-        section {
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <section class="hero">
-            <h1>Placeimg</h1>
-            <p>Placeimg is a free service that provides placeholder images for web development and design. It's super easy to use and perfect for AI agents to provide placeholders for content in web applications. Once you've replaced the image with the actual path, you're good to go.</p>
-        </section>
-
-        <section class="usage">
-            <h2>How to Use</h2>
-            <table class="usage-table">
-                <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>Example URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Square</td>
-                        <td><a href="/640/640" target="_blank">/640/640</a></td>
-                    </tr>
-                    <tr>
-                        <td>Landscape</td>
-                        <td><a href="/800/600" target="_blank">/800/600</a></td>
-                    </tr>
-                    <tr>
-                        <td>Custom Color</td>
-                        <td><a href="/640/480?color=333333" target="_blank">/640/480?color=333333</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </div>
-</body>
-</html>`;
 }
