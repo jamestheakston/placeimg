@@ -45,7 +45,7 @@ export async function onRequest(context) {
   }
 
   // Generate SVG placeholder image
-  const svg = generateSVG(width, height, color);
+  const svg = generateSVG(width, height, color, text);
 
   return new Response(svg, {
     headers: {
@@ -56,19 +56,25 @@ export async function onRequest(context) {
   });
 }
 
-function generateSVG(width, height, color) {
+function generateSVG(width, height, color, text) {
   // Ensure color has # prefix
   const hexColor = color.startsWith('#') ? color : `#${color}`;
   
   // Calculate text color based on background brightness
   const textColor = getContrastColor(hexColor);
+  
+  // Use custom text or default to dimensions
+  const displayText = text || `${width} x ${height}`;
+  
+  // Adjust font size based on text length
+  const fontSize = text ? Math.min(width, height) / Math.max(text.length / 5, 5) : Math.min(width, height) / 10;
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="${hexColor}"/>
-  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="${Math.min(width, height) / 10}" 
+  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="${fontSize}" 
         fill="${textColor}" text-anchor="middle" dominant-baseline="middle">
-    ${width} x ${height}
+    ${displayText}
   </text>
 </svg>`;
 }
