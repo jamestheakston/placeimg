@@ -21,6 +21,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Placeimg - Free Placeholder Images">
     <meta name="twitter:description" content="Generate placeholder images on the fly with custom dimensions and colors.">
+    <!-- Updated with correct git author -->
     
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <style>
@@ -232,6 +233,7 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#api-docs">API Documentation</a></li>
                 <li><a href="#ai-prompt">AI Prompt</a></li>
+                <li><a href="#profile">Create Profile</a></li>
             </ul>
         </aside>
         <div class="container">
@@ -385,6 +387,34 @@ Examples:
 The service returns SVG images with dimensions displayed as text. Once you have the final image path, replace the Placeimg URL with the actual image.</pre>
             </div>
         </section>
+
+        <section class="profile" id="profile">
+            <h2>Create Profile</h2>
+            <p>Save your favorite settings and get a custom profile URL.</p>
+            <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">Profile Name</label>
+                    <input type="text" id="profileName" placeholder="my-profile" style="width: 100%; padding: 10px; border: 1px solid #eaeaea; border-radius: 6px; font-size: 14px;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">Default Width</label>
+                    <input type="number" id="defaultWidth" placeholder="800" min="1" max="4000" style="width: 100%; padding: 10px; border: 1px solid #eaeaea; border-radius: 6px; font-size: 14px;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">Default Height</label>
+                    <input type="number" id="defaultHeight" placeholder="600" min="1" max="4000" style="width: 100%; padding: 10px; border: 1px solid #eaeaea; border-radius: 6px; font-size: 14px;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #333;">Default Color (hex)</label>
+                    <input type="text" id="defaultColor" placeholder="cccccc" maxlength="6" style="width: 100%; padding: 10px; border: 1px solid #eaeaea; border-radius: 6px; font-size: 14px;">
+                </div>
+                <button onclick="createProfile()" style="background: linear-gradient(90deg, #667eea, #764ba2); color: white; padding: 12px 24px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">Create Profile</button>
+            </div>
+            <div id="profileResult" style="margin-top: 20px; display: none;">
+                <p style="color: #22c55e; font-weight: 500;">Profile created!</p>
+                <p>Your profile URL: <a id="profileUrl" href="#" target="_blank" style="color: #667eea;"></a></p>
+            </div>
+        </section>
     </div>
 
     <script>
@@ -414,6 +444,45 @@ The service returns SVG images with dimensions displayed as text. Once you have 
             const progress = (scrollTop / docHeight) * 100;
             document.getElementById('progressBar').style.width = progress + '%';
         });
+
+        // Create Profile
+        async function createProfile() {
+            const profileName = document.getElementById('profileName').value.trim();
+            const defaultWidth = document.getElementById('defaultWidth').value;
+            const defaultHeight = document.getElementById('defaultHeight').value;
+            const defaultColor = document.getElementById('defaultColor').value.trim();
+
+            if (!profileName) {
+                alert('Please enter a profile name');
+                return;
+            }
+
+            const profileData = {
+                name: profileName,
+                width: defaultWidth || 800,
+                height: defaultHeight || 600,
+                color: defaultColor || 'cccccc'
+            };
+
+            try {
+                const response = await fetch('/api/create-profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(profileData)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('profileResult').style.display = 'block';
+                    document.getElementById('profileUrl').href = data.url;
+                    document.getElementById('profileUrl').textContent = data.url;
+                } else {
+                    alert('Failed to create profile');
+                }
+            } catch (error) {
+                alert('Error creating profile: ' + error.message);
+            }
+        }
     </script>
 </body>
 </html> 

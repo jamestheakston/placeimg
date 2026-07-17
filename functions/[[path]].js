@@ -9,6 +9,11 @@ export async function onRequest(context) {
     return context.next();
   }
 
+  // Handle profile routes
+  if (path.startsWith('/profile/')) {
+    return context.next();
+  }
+
   // Parse dimensions from path (e.g., /640/480)
   const parts = path.split('/').filter(Boolean);
   
