@@ -177,66 +177,6 @@ export async function onRequest(context) {
   }
 }
 
-function getErrorHTML(title, message) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error - Placeimg</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #fafafa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .error-container {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-        }
-        .error-icon {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 20px;
-            color: #ef4444;
-        }
-        .error-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin: 0 0 12px 0;
-        }
-        .error-message {
-            font-size: 14px;
-            color: #666;
-            margin: 0;
-            line-height: 1.5;
-        }
-    </style>
-</head>
-<body>
-    <div class="error-container">
-        <svg class="error-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="12" y1="8" x2="12" y2="12"></line>
-            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-        </svg>
-        <h2 class="error-title">Just one small problem with that...</h2>
-        <p class="error-message">${message}</p>
-    </div>
-</body>
-</html>`;
-}
-
 function generateSVG(width, height, color, text, transparent, textColor, font) {
   // Use transparent background if requested, otherwise use color
   const hexColor = transparent ? 'transparent' : normalizeColor(color);
