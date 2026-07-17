@@ -1,6 +1,6 @@
 # Placeimg
 
-<img src="favicon.svg" alt="Placeimg Logo" width="32" height="32" />
+<img src="favicon.svg" alt="Placeimg Logo" width="64" height="64" />
 
 A free placeholder image service for web development and design.
 
@@ -66,6 +66,16 @@ https://placeimg.pages.dev/{width}/{height}.{format}
 - `transparent`: Transparent background (default: false)
 
 ## Examples
+
+### Demo Images
+
+![200x200](https://placeimg.pages.dev/200/200)
+![300x200 Blue](https://placeimg.pages.dev/300/200?color=4a90e2)
+![200x300 Red](https://placeimg.pages.dev/200/300?color=e74c3c)
+![Custom Text](https://placeimg.pages.dev/250/250?text=Demo)
+![Transparent](https://placeimg.pages.dev/200/200?transparent=true)
+
+### URL Examples
 
 - `https://placeimg.pages.dev/640/480` - 640x480 image
 - `https://placeimg.pages.dev/640/480?color=ff5733` - Orange background
