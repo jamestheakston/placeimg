@@ -48,7 +48,15 @@ Visit `http://localhost:8787` to test
 
 ## Deployment
 
-### Deploy to Cloudflare Pages
+### Option 1: Direct Deploy (No GitHub)
+
+Deploy directly using Wrangler CLI:
+
+```bash
+npx wrangler pages deploy
+```
+
+### Option 2: GitHub Integration
 
 1. Push your code to GitHub
 2. Go to Cloudflare Dashboard → Pages → Create a project
@@ -57,12 +65,6 @@ Visit `http://localhost:8787` to test
    - Build command: (leave empty)
    - Build output directory: (leave empty)
 5. Deploy
-
-Or use Wrangler CLI:
-
-```bash
-npx wrangler pages deploy
-```
 
 ### Custom Domain
 
