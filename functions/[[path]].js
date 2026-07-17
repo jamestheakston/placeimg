@@ -136,7 +136,7 @@ export async function onRequest(context) {
 
     // Validate dimensions
     if (isNaN(width) || width <= 0 || isNaN(height) || height <= 0) {
-      return new Response(getErrorHTML('Invalid dimensions', 'Width and height must be positive numbers between 1 and 4000.'), {
+      return new Response(getErrorHTML('Invalid dimensions', 'Width and height must be positive numbers between 1 and 4000. Make sure you\'re using numeric values for dimensions. For example: /800/600 or /400 for a square image.'), {
         status: 400,
         headers: { 'Content-Type': 'text/html' },
       });
@@ -177,7 +177,7 @@ export async function onRequest(context) {
       });
     }
   } catch (error) {
-    return new Response(getErrorHTML('Something went wrong', error.message), {
+    return new Response(getErrorHTML('Something went wrong', `${error.message}. This might be a temporary issue. Please try again or check your URL format. If the problem persists, the service may be experiencing technical difficulties.`), {
       status: 500,
       headers: { 'Content-Type': 'text/html' },
     });
