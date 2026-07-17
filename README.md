@@ -1,6 +1,6 @@
 # Placeimg
 
-A free placeholder image service built with Cloudflare Workers. Generate placeholder images on the fly with custom dimensions and colors.
+A free placeholder image service built with Cloudflare Pages Functions. Generate placeholder images on the fly with custom dimensions and colors.
 
 ## Features
 
@@ -58,27 +58,30 @@ npm run dev
 
 ## Deployment
 
-### Deploy to Cloudflare Workers
+### Deploy to Cloudflare Pages
 
-1. Login to Cloudflare:
+1. Push your code to GitHub
+2. Go to Cloudflare Dashboard → Pages → Create a project
+3. Connect your GitHub repository
+4. Build settings:
+   - Build command: (leave empty)
+   - Build output directory: (leave empty)
+5. Deploy
+
+Or use Wrangler CLI:
+
 ```bash
-npx wrangler login
+npx wrangler pages deploy
 ```
-
-2. Deploy:
-```bash
-npm run deploy
-```
-
-3. Update your custom domain in `wrangler.toml` if needed
 
 ### Custom Domain
 
 To use a custom domain like `placeimg.pages.dev`:
 
-1. Add your domain in Cloudflare dashboard
-2. Update `wrangler.toml` with your route pattern
-3. Deploy again
+1. Go to your Pages project in Cloudflare Dashboard
+2. Click "Custom domains"
+3. Add your domain
+4. Follow DNS instructions
 
 ## API Limits
 

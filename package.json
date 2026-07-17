@@ -2,12 +2,8 @@
   "name": "placeimg",
   "version": "1.0.0",
   "description": "Free placeholder image service",
-  "main": "src/index.js",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
-  },
-  "devDependencies": {
-    "wrangler": "^3.0.0"
+    "dev": "npx wrangler pages dev",
+    "deploy": "npx wrangler pages deploy"
   }
 }

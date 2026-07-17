@@ -1,7 +1,0 @@
-name = "placeimg"
-main = "src/index.js"
-compatibility_date = "2024-01-01"
-
-[routes]
-pattern = "placeimg.pages.dev/*"
-zone_name = "pages.dev"
