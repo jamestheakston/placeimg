@@ -9,11 +9,6 @@ export async function onRequest(context) {
     return context.next();
   }
 
-  // Handle prelink routes
-  if (path.startsWith('/prelink/')) {
-    return context.next();
-  }
-
   // Parse dimensions from path (e.g., /640/480)
   const parts = path.split('/').filter(Boolean);
   
