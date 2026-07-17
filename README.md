@@ -2,6 +2,8 @@
 
 A free placeholder image service built with Cloudflare Pages Functions. Generate placeholder images on the fly with custom dimensions and colors.
 
+[GitHub Repository](https://github.com/jamestheakston/placeimg)
+
 ## Features
 
 - Dynamic placeholder image generation
