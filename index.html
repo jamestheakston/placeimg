@@ -107,9 +107,76 @@
             color: #667eea;
         }
 
-        @media (min-width: 1024px) {
+        @media (max-width: 1023px) {
+            .main-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
             .toc {
-                display: block;
+                width: 100%;
+                position: static;
+                margin-bottom: 20px;
+            }
+            
+            .toc ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .toc li {
+                padding: 0;
+            }
+            
+            .toc a {
+                background: #f8f8f8;
+                padding: 8px 12px;
+                border-radius: 6px;
+                font-size: 13px;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            .demos div {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .toc ul {
+                flex-direction: column;
+            }
+            
+            .toc a {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .demos div {
+                grid-template-columns: 1fr;
+            }
+            
+            section {
+                padding: 16px;
+            }
+            
+            h1 {
+                font-size: 24px;
             }
         }
 
