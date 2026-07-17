@@ -62,10 +62,10 @@ export async function onRequest(context) {
 
 function generateSVG(width, height, color, text, transparent, textColor) {
   // Use transparent background if requested, otherwise use color
-  const hexColor = transparent ? 'transparent' : (color.startsWith('#') ? color : `#${color}`);
+  const hexColor = transparent ? 'transparent' : normalizeColor(color);
   
   // Use custom text color if provided, otherwise calculate based on background
-  const finalTextColor = textColor ? (textColor.startsWith('#') ? textColor : `#${textColor}`) : (transparent ? '#333333' : getContrastColor(hexColor));
+  const finalTextColor = textColor ? normalizeColor(textColor) : (transparent ? '#333333' : getContrastColor(hexColor));
   
   // Use custom text or default to dimensions
   const displayText = text || `${width} x ${height}`;
@@ -81,6 +81,61 @@ function generateSVG(width, height, color, text, transparent, textColor) {
     ${displayText}
   </text>
 </svg>`;
+}
+
+function normalizeColor(color) {
+  if (!color) return '#cccccc';
+  
+  // Check if it's already a hex color
+  if (color.startsWith('#')) return color;
+  
+  // Check if it's a CSS color name
+  const cssColors = {
+    'transparent': 'transparent',
+    'black': '#000000',
+    'white': '#ffffff',
+    'red': '#ff0000',
+    'green': '#008000',
+    'blue': '#0000ff',
+    'yellow': '#ffff00',
+    'orange': '#ffa500',
+    'purple': '#800080',
+    'pink': '#ffc0cb',
+    'gray': '#808080',
+    'grey': '#808080',
+    'brown': '#a52a2a',
+    'cyan': '#00ffff',
+    'magenta': '#ff00ff',
+    'lime': '#00ff00',
+    'navy': '#000080',
+    'teal': '#008080',
+    'olive': '#808000',
+    'maroon': '#800000',
+    'silver': '#c0c0c0',
+    'gold': '#ffd700',
+    'indigo': '#4b0082',
+    'violet': '#ee82ee',
+    'beige': '#f5f5dc',
+    'coral': '#ff7f50',
+    'crimson': '#dc143c',
+    'darkblue': '#00008b',
+    'darkgreen': '#006400',
+    'darkred': '#8b0000',
+    'lightblue': '#add8e6',
+    'lightgreen': '#90ee90',
+    'lightgray': '#d3d3d3',
+    'lightgrey': '#d3d3d3',
+    'darkgray': '#a9a9a9',
+    'darkgrey': '#a9a9a9'
+  };
+  
+  const lowerColor = color.toLowerCase();
+  if (cssColors[lowerColor]) {
+    return cssColors[lowerColor];
+  }
+  
+  // Assume it's a hex color without the # prefix
+  return `#${color}`;
 }
 
 function getContrastColor(hexColor) {
