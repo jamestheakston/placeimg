@@ -28,7 +28,7 @@ export async function onRequest(context) {
     const textColor = url.searchParams.get('textColor') || null;
 
     // Validate dimensions
-    if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+    if (isNaN(width) || width <= 0 || isNaN(height) || height <= 0) {
       return new Response('Invalid dimensions. Width and height must be positive numbers.', {
         status: 400,
         headers: { 'Content-Type': 'text/plain' },
@@ -44,7 +44,7 @@ export async function onRequest(context) {
     }
 
     // Generate SVG placeholder image
-    const svg = generateSVG(width, height, color, text, transparent, textColor);
+    const svg = generateSVG(width, height, color, text.replace(/\\n/g, '\n'), transparent, textColor, font);
 
     return new Response(svg, {
       headers: {
@@ -61,7 +61,7 @@ export async function onRequest(context) {
   }
 }
 
-function generateSVG(width, height, color, text, transparent, textColor) {
+function generateSVG(width, height, color, text, transparent, textColor, font) {
   // Use transparent background if requested, otherwise use color
   const hexColor = transparent ? 'transparent' : normalizeColor(color);
   
@@ -81,7 +81,7 @@ function generateSVG(width, height, color, text, transparent, textColor) {
   const startY = 50 - ((totalHeight / height) * 50);
 
   const textElements = lines.map((line, i) => 
-    `<text x="50%" y="${startY + (i * lineHeight / height * 100)}%" font-family="Arial, sans-serif" font-size="${fontSize}" 
+    `<text x="50%" y="${startY + (i * lineHeight / height * 100)}%" font-family="${font}, Arial, sans-serif" font-size="${fontSize}" 
         fill="${finalTextColor}" text-anchor="middle" dominant-baseline="middle">
     ${line}
   </text>`
