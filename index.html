@@ -126,6 +126,11 @@
         pre {
             margin: 0;
         }
+
+        #copyButton:hover {
+            background-color: #f0f0f0;
+            border-color: #d0d0d0;
+        }
     </style>
 </head>
 <body>
@@ -254,7 +259,17 @@
         <section class="ai-prompt">
             <h2>AI Prompt</h2>
             <p>When using Placeimg with AI agents, you can use this prompt:</p>
-            <pre style="background-color: #f8f8f8; padding: 16px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; font-family: 'Monaco', 'Courier New', monospace; font-size: 14px; color: #333; line-height: 1.6;">Placeimg is a free placeholder image service. Use it to generate placeholder images for web development and design. 
+            <div style="position: relative;">
+                <button id="copyButton" onclick="copyPrompt()" style="position: absolute; top: 12px; right: 12px; background: white; border: 1px solid #eaeaea; border-radius: 6px; padding: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">
+                    <svg id="copyIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <svg id="tickIcon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </button>
+                <pre id="promptText" style="background-color: #f8f8f8; padding: 16px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; font-family: 'Monaco', 'Courier New', monospace; font-size: 14px; color: #333; line-height: 1.6;">Placeimg is a free placeholder image service. Use it to generate placeholder images for web development and design. 
 
 URL format: https://placeimg.pages.dev/{width}/{height}?color={hex}
 - width: Image width in pixels (1-4000)
@@ -267,7 +282,26 @@ Examples:
 - https://placeimg.pages.dev/640/480?color=ff5733 - 640x480 image with orange background
 
 The service returns SVG images with dimensions displayed as text. Once you have the final image path, replace the Placeimg URL with the actual image.</pre>
+            </div>
         </section>
     </div>
+
+    <script>
+        function copyPrompt() {
+            const promptText = document.getElementById('promptText').innerText;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const copyIcon = document.getElementById('copyIcon');
+                const tickIcon = document.getElementById('tickIcon');
+                
+                copyIcon.style.display = 'none';
+                tickIcon.style.display = 'block';
+                
+                setTimeout(() => {
+                    copyIcon.style.display = 'block';
+                    tickIcon.style.display = 'none';
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html> 
