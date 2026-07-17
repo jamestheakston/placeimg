@@ -584,7 +584,6 @@ The service returns SVG images with dimensions displayed as text. Once you have 
         function togglePrompt() {
             const promptText = document.getElementById('promptText');
             const chevronIcon = document.getElementById('chevronIcon');
-            const toggleText = document.getElementById('toggleText');
             
             isExpanded = !isExpanded;
             
@@ -592,12 +591,10 @@ The service returns SVG images with dimensions displayed as text. Once you have 
                 promptText.style.maxHeight = '1000px';
                 promptText.style.padding = '16px';
                 chevronIcon.style.transform = 'rotate(180deg)';
-                toggleText.textContent = 'Hide Prompt';
             } else {
                 promptText.style.maxHeight = '0';
                 promptText.style.padding = '0 16px';
                 chevronIcon.style.transform = 'rotate(0deg)';
-                toggleText.textContent = 'Show Prompt';
             }
         }
 
