@@ -1,6 +1,6 @@
 # Placeimg
 
-![Placeimg Logo](favicon.svg){ width=32 height=32 }
+<img src="favicon.svg" alt="Placeimg Logo" width="32" height="32" />
 
 A free placeholder image service for web development and design.
 
