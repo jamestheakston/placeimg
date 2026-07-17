@@ -53,6 +53,7 @@ function getErrorHTML(title, message) {
         </svg>
         <h2 class="error-title">Just one small problem with that...</h2>
         <p class="error-message">${message}</p>
+        <p style="margin-top: 20px; font-size: 12px; color: #999;">Website made by <a href="https://jamestheakston.pages.dev" target="_blank" style="color: #667eea;">James Theakston</a></p>
     </div>
 </body>
 </html>`;
