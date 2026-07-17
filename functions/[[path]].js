@@ -11,6 +11,7 @@ export async function onRequest(context) {
     }
 
     // Parse dimensions from path (e.g., /640/480 or /400 for square)
+    // Also supports /bgcolor/textcolor format
     const parts = path.split('/').filter(Boolean);
     
     if (parts.length < 1) {
@@ -20,13 +21,29 @@ export async function onRequest(context) {
       });
     }
 
-    const width = parseInt(parts[0]);
-    const height = parts.length >= 2 ? parseInt(parts[1]) : width;
-    const color = url.searchParams.get('color') || 'cccccc';
-    const text = url.searchParams.get('text') || null;
-    const transparent = url.searchParams.get('transparent') === 'true';
-    const textColor = url.searchParams.get('textColor') || null;
-    const font = url.searchParams.get('font') || 'Arial';
+    // Check if first part is a dimension (number) or a color
+    const firstPart = parseInt(parts[0]);
+    let width, height, color, textColor, text, transparent, font;
+
+    if (isNaN(firstPart)) {
+      // Format: /bgcolor/textcolor
+      color = parts[0];
+      textColor = parts[1] || null;
+      width = 800;
+      height = 600;
+      text = url.searchParams.get('text') || null;
+      transparent = url.searchParams.get('transparent') === 'true';
+      font = url.searchParams.get('font') || 'Arial';
+    } else {
+      // Format: /width or /width/height
+      width = firstPart;
+      height = parts.length >= 2 ? parseInt(parts[1]) : width;
+      color = url.searchParams.get('color') || 'cccccc';
+      text = url.searchParams.get('text') || null;
+      transparent = url.searchParams.get('transparent') === 'true';
+      textColor = url.searchParams.get('textColor') || null;
+      font = url.searchParams.get('font') || 'Arial';
+    }
 
     // Validate dimensions
     if (isNaN(width) || width <= 0 || isNaN(height) || height <= 0) {
