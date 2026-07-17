@@ -6,11 +6,18 @@
     <title>Placeimg - Free Placeholder Images</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #fafafa;
+            color: #333;
+            line-height: 1.6;
+            padding: 40px 20px;
         }
 
         .container {
@@ -19,24 +26,38 @@
         }
 
         h1 {
-            color: #333;
+            font-size: 36px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 16px;
         }
 
         p {
-            color: #666;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 16px;
         }
 
         section {
             background-color: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+            border: 1px solid #eaeaea;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 20px;
         }
 
         a {
-            color: #007BFF;
+            color: #0066cc;
             text-decoration: none;
+            font-weight: 500;
         }
 
         a:hover {
@@ -49,9 +70,24 @@
         }
 
         th, td {
-            padding: 12px;
+            padding: 14px 16px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        th {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            background-color: #f8f8f8;
+        }
+
+        td {
+            color: #555;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
     </style>
 </head>
