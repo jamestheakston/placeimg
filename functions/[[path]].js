@@ -24,6 +24,7 @@ export async function onRequest(context) {
     const height = parseInt(parts[1]);
     const color = url.searchParams.get('color') || 'cccccc';
     const text = url.searchParams.get('text') || null;
+    const transparent = url.searchParams.get('transparent') === 'true';
 
     // Validate dimensions
     if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
@@ -42,7 +43,7 @@ export async function onRequest(context) {
     }
 
     // Generate SVG placeholder image
-    const svg = generateSVG(width, height, color, text);
+    const svg = generateSVG(width, height, color, text, transparent);
 
     return new Response(svg, {
       headers: {
@@ -59,12 +60,12 @@ export async function onRequest(context) {
   }
 }
 
-function generateSVG(width, height, color, text) {
-  // Ensure color has # prefix
-  const hexColor = color.startsWith('#') ? color : `#${color}`;
+function generateSVG(width, height, color, text, transparent) {
+  // Use transparent background if requested, otherwise use color
+  const hexColor = transparent ? 'transparent' : (color.startsWith('#') ? color : `#${color}`);
   
-  // Calculate text color based on background brightness
-  const textColor = getContrastColor(hexColor);
+  // Calculate text color based on background brightness (or use dark for transparent)
+  const textColor = transparent ? '#333333' : getContrastColor(hexColor);
   
   // Use custom text or default to dimensions
   const displayText = text || `${width} x ${height}`;
@@ -74,7 +75,7 @@ function generateSVG(width, height, color, text) {
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="${hexColor}"/>
+  ${transparent ? '' : `<rect width="100%" height="100%" fill="${hexColor}"/>`}
   <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="${fontSize}" 
         fill="${textColor}" text-anchor="middle" dominant-baseline="middle">
     ${displayText}
