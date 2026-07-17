@@ -122,12 +122,19 @@
             display: inline-block;
             margin-bottom: 8px;
         }
+
+        pre {
+            margin: 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <section class="hero">
-            <h1>Placeimg</h1>
+            <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                <img src="favicon.svg" alt="Placeimg Logo" width="60" height="60">
+                <h1>Placeimg</h1>
+            </div>
             <p>Placeimg is a free service that provides placeholder images for web development and design. It's super easy to use and perfect for AI agents to provide placeholders for content in web applications. Specify custom colors using hex format (e.g., ff5733 for orange). Once you've replaced the image with the actual path, you're good to go.</p>
             <a href="https://github.com/jamestheakston/placeimg" target="_blank">View on GitHub →</a>
         </section>
@@ -242,6 +249,24 @@
             <h3>Example</h3>
             <code>GET /800/600?color=ff5733</code>
             <p>Returns an 800x600 SVG with orange background (#ff5733)</p>
+        </section>
+
+        <section class="ai-prompt">
+            <h2>AI Prompt</h2>
+            <p>When using Placeimg with AI agents, you can use this prompt:</p>
+            <pre style="background-color: #f8f8f8; padding: 16px; border-radius: 8px; overflow-x: auto; white-space: pre-wrap; font-family: 'Monaco', 'Courier New', monospace; font-size: 14px; color: #333; line-height: 1.6;">Placeimg is a free placeholder image service. Use it to generate placeholder images for web development and design. 
+
+URL format: /{width}/{height}?color={hex}
+- width: Image width in pixels (1-4000)
+- height: Image height in pixels (1-4000)
+- color: Optional hex color for background (default: cccccc)
+
+Examples:
+- /640/640 - 640x640 square image
+- /800/600 - 800x600 landscape image
+- /640/480?color=ff5733 - 640x480 image with orange background
+
+The service returns SVG images with dimensions displayed as text. Once you have the final image path, replace the Placeimg URL with the actual image.</pre>
         </section>
     </div>
 </body>
