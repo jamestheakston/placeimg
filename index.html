@@ -6,18 +6,11 @@
     <title>Placeimg - Free Placeholder Images</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 40px 20px;
-            line-height: 1.6;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
         }
 
         .container {
@@ -25,55 +18,29 @@
             margin: 0 auto;
         }
 
-        .hero {
-            background: white;
-            padding: 50px 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-            margin-bottom: 30px;
+        h1 {
+            color: #333;
         }
 
-        .hero h1 {
-            font-size: 42px;
-            font-weight: 700;
-            color: #1a1a2e;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
+        p {
+            color: #666;
         }
 
-        .hero p {
-            font-size: 17px;
-            color: #4a4a6a;
-            line-height: 1.7;
-            margin-bottom: 20px;
+        section {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
         }
 
-        .github-link {
-            display: inline-flex;
-            align-items: center;
-            color: #667eea;
-            font-weight: 600;
+        a {
+            color: #007BFF;
             text-decoration: none;
-            transition: color 0.2s ease;
         }
 
-        .github-link:hover {
-            color: #764ba2;
+        a:hover {
             text-decoration: underline;
-        }
-
-        .usage {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .usage h2 {
-            font-size: 26px;
-            font-weight: 600;
-            color: #1a1a2e;
-            margin-bottom: 24px;
         }
 
         table {
@@ -82,61 +49,9 @@
         }
 
         th, td {
-            padding: 14px 16px;
+            padding: 12px;
             text-align: left;
-            border-bottom: 1px solid #e8e8f0;
-        }
-
-        th {
-            font-weight: 600;
-            color: #1a1a2e;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background-color: #f8f9fa;
-        }
-
-        td {
-            color: #4a4a6a;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        a:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-            .hero {
-                padding: 35px 25px;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 15px;
-            }
-
-            .usage {
-                padding: 30px 25px;
-            }
-
-            th, td {
-                padding: 12px;
-                font-size: 14px;
-            }
+            border-bottom: 1px solid #ddd;
         }
     </style>
 </head>
@@ -145,7 +60,7 @@
         <section class="hero">
             <h1>Placeimg</h1>
             <p>Placeimg is a free service that provides placeholder images for web development and design. It's super easy to use and perfect for AI agents to provide placeholders for content in web applications. Once you've replaced the image with the actual path, you're good to go.</p>
-            <a href="https://github.com/jamestheakston/placeimg" class="github-link" target="_blank">View on GitHub →</a>
+            <a href="https://github.com/jamestheakston/placeimg" target="_blank">View on GitHub →</a>
         </section>
 
         <section class="usage">
