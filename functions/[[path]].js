@@ -26,6 +26,7 @@ export async function onRequest(context) {
     const text = url.searchParams.get('text') || null;
     const transparent = url.searchParams.get('transparent') === 'true';
     const textColor = url.searchParams.get('textColor') || null;
+    const font = url.searchParams.get('font') || 'Arial';
 
     // Validate dimensions
     if (isNaN(width) || width <= 0 || isNaN(height) || height <= 0) {
