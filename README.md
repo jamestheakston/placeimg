@@ -37,24 +37,14 @@ Examples:
 
 ## Development
 
-### Prerequisites
+### Local Testing
 
-- Node.js 18+
-- Wrangler CLI
-
-### Setup
-
-1. Install dependencies:
+To test locally with Wrangler:
 ```bash
-npm install
+npx wrangler pages dev
 ```
 
-2. Start local development server:
-```bash
-npm run dev
-```
-
-3. Visit `http://localhost:8787` to test
+Visit `http://localhost:8787` to test
 
 ## Deployment
 
